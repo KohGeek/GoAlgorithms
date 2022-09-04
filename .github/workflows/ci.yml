@@ -32,14 +32,14 @@ jobs:
       - name: Setup gotestfmt
         uses: haveyoudebuggedit/gotestfmt-action@v2
         id: testfmt
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run go tests
         id: test
         run: |
           set -euo pipefail
           go test -json -v ./... 2>&1 | tee /tmp/gotest.log | gotestfmt
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate coverage doc
         uses: gwatts/go-coverage-action@v1
