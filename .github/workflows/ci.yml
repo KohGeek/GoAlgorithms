@@ -73,6 +73,7 @@ jobs:
     name: Code coverage
     strategy:
       matrix:
+        go: [1.19]
         os: [ubuntu-latest]
       fail-fast: false
     runs-on: ${{ matrix.os }}
