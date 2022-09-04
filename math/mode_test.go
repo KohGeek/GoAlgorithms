@@ -58,7 +58,7 @@ func TestMode(t *testing.T) {
 		{
 			name:    "If array has no value",
 			numbers: []int{},
-			mode:    10,
+			mode:    0,
 			err:     math.ErrEmptySlice,
 		},
 	}
