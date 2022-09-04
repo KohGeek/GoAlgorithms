@@ -29,14 +29,6 @@ jobs:
           version: v1.49.0
           only-new-issues: true
 
-      - name: Upload lint report as artifact
-        uses: actions/upload-artifact@v3
-        id: artifact-upload
-        if: always()
-        with: 
-          path: /tmp/lint-report.json
-          if-no-files-found: error
-
   golang_test:
     name: Code tests
     strategy:

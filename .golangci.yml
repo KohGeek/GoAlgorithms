@@ -9,5 +9,5 @@ linters:
     - gofmt
     - misspell
 output:
-  format: github-actions,colored-line-number:stdout,json:/tmp/lint-report.json
+  format: github-actions,colored-line-number:stdout
 
