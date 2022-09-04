@@ -45,11 +45,12 @@ jobs:
         uses: gwatts/go-coverage-action@v1
         id: coverage
         with:
-          coverage-threshold: 90
+          coverage-threshold: 85
       
-      - name: Upload coverage doc as artifact
+      - name: Upload coverage doc and test info as artifact
         uses: actions/upload-artifact@v3
         id: artifact-upload
+        if: always()
         with: 
           path: |
             ${{ steps.coverage.outputs.report-pathname }}
