@@ -9,8 +9,8 @@ on:
   pull_request:
 
 jobs:
-  golang_lint_and_test:
-    name: Code style and tests
+  golang_lint:
+    name: Code style
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -27,7 +27,30 @@ jobs:
         id: lint
         with: 
           # Checks are implemented only for new changes
-          golangci_lint_flags: "--new-from-rev=HEAD~1"
+          golangci_lint_flags: ""
+
+      - name: Generate coverage doc
+        uses: gwatts/go-coverage-action@v1
+        id: coverage
+        with:
+          coverage-threshold: 85
+      
+      - name: Upload coverage doc and test info as artifact
+        uses: actions/upload-artifact@v3
+        id: artifact-upload
+        if: always()
+        with: 
+          path: ${{ steps.coverage.outputs.report-pathname }}
+          if-no-files-found: error
+
+  golang_test:
+    name: Code tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        id: checkout
 
       - name: Setup gotestfmt
         uses: haveyoudebuggedit/gotestfmt-action@v2
@@ -41,19 +64,10 @@ jobs:
           set -euo pipefail
           go test -json -v ./... 2>&1 | tee /tmp/gotest.log | gotestfmt
 
-      - name: Generate coverage doc
-        uses: gwatts/go-coverage-action@v1
-        id: coverage
-        with:
-          coverage-threshold: 85
-      
-      - name: Upload coverage doc and test info as artifact
+      - name: Upload test info as artifact
         uses: actions/upload-artifact@v3
         id: artifact-upload
-        if: always()
         with: 
-          path: |
-            ${{ steps.coverage.outputs.report-pathname }}
-            /tmp/gotest.log
+          path: /tmp/gotest.log
           if-no-files-found: error
 
