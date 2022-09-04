@@ -59,7 +59,8 @@ jobs:
         id: setup
         with: 
           go-version: '^1.19'
-        run: go version
+          
+      - run: go version
 
       - name: Setup gotestfmt
         uses: haveyoudebuggedit/gotestfmt-action@v2
