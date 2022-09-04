@@ -34,7 +34,7 @@ jobs:
         id: artifact-upload
         if: always()
         with: 
-          path: /tmp/lint-report.json
+          path: lint-report.json
           if-no-files-found: error
 
   golang_test:
